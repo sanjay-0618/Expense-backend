@@ -7,20 +7,27 @@ def home():
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dotenv import load_dotenv
+
 from openai import AzureOpenAI
 
-# Load .env variables
-load_dotenv()
-
 app = Flask(__name__)
-CORS(app, origins=["https://expense-tracker-bgoum48wm-sanjaytnj21-4960s-projects.vercel.app/"])  # Enable CORS for frontend
+CORS(app, supports_credentials=True, origins=[
+    "https://expense-tracker-g6lbb95c1-sanjaytnj21-4960s-projects.vercel.app",
+    "https://expense-tracker-bgoum48wm-sanjaytnj21-4960s-projects.vercel.app"
+])  # Enable CORS for both deployed frontend URLs
 
-# Azure OpenAI Config
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-AZURE_OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT")
-AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION")
+
+
+# Azure OpenAI Config (set directly here, do NOT commit secrets to public repos)
+AZURE_OPENAI_API_KEY = "EA9XVBXTqZBvS9dlm6RypO63H6tL220C1bhqzyZdXES5SSViCA9GJQQJ99BHACfhMk5XJ3w3AAABACOGbO9X"
+AZURE_OPENAI_ENDPOINT = "https://bot4ai.openai.azure.com/"
+AZURE_OPENAI_DEPLOYMENT = "gpt-4.1"
+AZURE_OPENAI_API_VERSION = "2025-01-01-preview"
+
+# Flask config
+FLASK_ENV = "development"
+FLASK_RUN_PORT = 5000
+FLASK_RUN_HOST = "0.0.0.0"
 
 # Azure OpenAI client
 client = AzureOpenAI(
@@ -103,6 +110,6 @@ def chat():
 if __name__ == "__main__":
     print("Flask backend is running sanjay")
     app.run(
-        host=os.getenv("FLASK_RUN_HOST", "0.0.0.0"),
-        port=int(os.getenv("FLASK_RUN_PORT", 5000))
+        host=FLASK_RUN_HOST,
+        port=FLASK_RUN_PORT
     )
