@@ -8,7 +8,7 @@ from openai import AzureOpenAI
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend
+CORS(app, origins=["https://expense-tracker-bgoum48wm-sanjaytnj21-4960s-projects.vercel.app/"])  # Enable CORS for frontend
 
 # Azure OpenAI Config
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
@@ -95,6 +95,7 @@ def chat():
 
 
 if __name__ == "__main__":
+    print("Flask backend is running sanjay")
     app.run(
         host=os.getenv("FLASK_RUN_HOST", "0.0.0.0"),
         port=int(os.getenv("FLASK_RUN_PORT", 5000))
